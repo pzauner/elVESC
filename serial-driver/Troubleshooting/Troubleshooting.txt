@@ -1,0 +1,51 @@
+Troubleshooting
+===============
+
+Last Updated Dec 4th, 2019
+
+Reporting a Problem
+===================
+Please run the shell script "get_info.sh". This produces a file called info.txt which you can include in your report.
+
+When you run the installer, a log file is created at the following path: ~/Library/Log/silabs_vcp_installer.log
+You cat watch the log file to see additional information with the following Terminal command:
+	tail -f ~/Library/Log/silabs_vcp_installer.log
+
+Note: This log file is removed from the file system when the installer reaches the "Success" screen.
+
+Please include this log file in your report.
+
+Silicon Labs MacVCP Diver Installer
+============
+
+The Silicon Labs 210x VCP Driver runs on MacOS 10.11 and up. If you are on an older system, open the folder called "Legacy MacVCP Driver".
+
+The installer tries to unload then remove any existing Silicon Labs VCP driver that may be present on your computer. This will fail if the driver is in use. In some cases, the computer might need to be rebooted if the driver cannot be unloaded.
+The installer then will try to install the new Silicon Labs VCP driver in the file system and load it into the kernel on your computer.
+
+The installer needs your CP210x device to be disconnected from your computer during install. The installer will ask you to unplug if it detects the device is connected.
+
+There have been four locations that Silicon Labs has ever used to install the CP210x VCP Driver:
+
+	/Library/Extensions/SiLabsUSBDriver.kext
+	/Library/Extensions/SiLabsUSBDriverYos.kext
+	/System/Library/Extensions/SiLabsUSBDriver64.kext
+	/System/Library/Extensions/SiLabsUSBDriver.kext
+
+If all else fails, you could make sure no driver exists at any of the above locations, reboot the computer, and then re-run the installer.
+
+User Approved Kernel Extensions
+===============================
+
+Technical Note 2459: User Approved Kernel Extensions
+
+https://developer.apple.com/library/archive/technotes/tn2459/_index.html
+
+Apple introduced User Approved Kernel Extensions in MacOS X High Sierra 10.13. You may be prompted to go to System Preferences -> Privacy to click a button that says "Allow" for the driver to be loaded. The installer that Silicon Labs provides attempts to make this easier for you by detecting if this button needs to be pressed and prompts you to do so.
+
+It also uses other techniques to attempt to tell if the driver has definitively been loaded before it displays the Success message.
+
+Apple Installer
+============
+If you cannot get the Silicon Labs installer to work for you, the Apple installer is included in this troubleshooting folder in the hope that it may work for you. The reason we moved away from using this type of installer was to reduce confusion caused by User Approved Kernel Extensions and to solve the problem of it erroneously reporting success without verifying whether the kernel extension has properly loaded. The installer itself is still a valid method to install the VCP driver.
+
