@@ -3,25 +3,25 @@
 
 
 ## Structure
-UI/
-├─ dashboard.png
-├─ powermeter.png
-├─ tachometer.png
-code/
-├─ Firmware/
-├─ uarttest/
-├─ lcdtest/
-├─ serialtester/
-├─ i2scanner/
-vesc-related/
-├─ firmware/
-├─ manual/
-├─ tool/
-libraries/
-serial-driver/
-pcb/
-├─ schematics/
-├─ partlist.md/
+    UI/
+    ├─ dashboard.png
+    ├─ powermeter.png
+    ├─ tachometer.png
+    code/
+    ├─ Firmware/
+    ├─ uarttest/
+    ├─ lcdtest/
+    ├─ serialtester/
+    ├─ i2scanner/
+    vesc-related/
+    ├─ firmware/
+    ├─ manual/
+    ├─ tool/
+    libraries/
+    serial-driver/
+    pcb/
+    ├─ schematics/
+    ├─ partlist.md/
 
 
 The UI-Folder provides the .png files for the screens as a backup. The actual images are stored in bytes via image2cpp
