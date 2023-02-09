@@ -1,0 +1,4 @@
+- ESP32 Dev KIT (C v4 from AZDelivery in my case. Check Pinlayout for compatibility)
+- (4x) OLED 128x32 screens with SSD1306 controller
+- I2C Multiplexer TCA9548A
+- VESC with UART functionality
