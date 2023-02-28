@@ -24,19 +24,34 @@ String displaymotorcurrent;
 String displaytempVesc;
 String displaypower;
 String displaybatpercentage;
+String displaycellvoltage;
 
 String displayclock;
 String displayhour;
 String displayminute;
 int second;
 
-float powerfiltered;
-float rpmfiltered;
+
+// function to display the velocity in km/h on the tachometer
+tcaselect(TACHOMETERADDR);
+tachometer.setTextSize(4);
+tachometer.setTextColor(WHITE,BLACK);
+displayvelocity = String(velocity, 1);
+
+tachometer.fillRect(0,0,103,32, BLACK); // clears the background / previous number. Although we render the font with black and white this is the easiest way to deal with this
+tachometer.getTextBounds(displayvelocity, 0, 0, &x1, &y1, &width, &height);
+tachometer.setCursor(32 + ((64-width)/2), 0);
+tachometer.print(displayvelocity);
+tachometer.display();
+
+// end of tachometer rendering
 
 tcaselect(BASICADDR);
 basic.setTextSize(3);
 basic.setTextColor(WHITE,BLACK);
 
+
+// Function to display the clock
 if (rtc.getHour(true) < 10) {
   displayhour = "0" + String(rtc.getHour(true));
 } else {
@@ -50,12 +65,16 @@ if (rtc.getMinute() < 10) {
 }
 displayclock = displayhour + displayminute;
 
+
+// center the clock
 basic.getTextBounds(displayclock, 0, 0, &x1, &y1, &width, &height);
 basic.setCursor(20 + ((72 - width)/2), 0);
 basic.print(displayhour);
 basic.setCursor(58 + ((72 - width)/2), 0);
 basic.print(displayminute);
 
+
+// Printing the blinking ":" of the clock
 if (rtc.getMillis() < 501) {
   basic.fillRect(54,6,3,3, WHITE);
   basic.fillRect(54,16,3,3, WHITE);
@@ -87,6 +106,29 @@ if (second < 3) {
   }
 }
 
+// end of the function to print the clock
+
+// function to render the batpercentage. The usable space is 13x28px beginning with upper left and lower right coordinates: 2x3y and 14x30y
+// if the battery is lower then 10% then we don't care and just render it as 0% because you won't have fun anyways and should charge soon. You may refer to cell voltage in the dashboard views for further details.
+// we approximate 10% as 3pixels so ca. 1pixel equals 3 percent.
+
+
+// first render the whole battery full
+basic.fillRect(2,3,13,28, WHITE);
+// then we calculate how much we need to subtract.
+
+float fuckcplusplus = 100 - batpercentage;
+fuckcplusplus = fuckcplusplus * 0.28;
+// how this is calculated: pixelwidth per percent (28px / 100 %) * 100 - percentage now
+
+basic.fillRect(2,3,13,int16_t(fuckcplusplus), BLACK);
+
+
+// preserve the nice battery icon and it's rounded corners:
+basic.writePixel(2,3, WHITE);
+basic.writePixel(14,3, WHITE);
+basic.writePixel(2,30, WHITE);
+basic.writePixel(14,30, WHITE);
 
 basic.display();
 
@@ -133,23 +175,17 @@ tcaselect(DISPLAYADDR);
 
     // Textkoordinaten: 7, 3 Wh; 7, 15 Wh/km; 67, 3 km; 67, 15 ODO
 
-    //Serial.println(displaykm);
-    //Serial.println(odokm);
-    Serial.println(powerfiltered);
-    Serial.println(motorcurrent);
-    Serial.println(powerfiltered);
-    Serial.println(batpercentage);
 
 
 
     displayrpm = String(rpmfiltered, 0);
-    displayvelocity = String(velocity, 0);
     displaypower = String(powerfiltered, 0);
     displayvoltage = String(voltage, 0); 
     displaycurrent = String(current, 0);
     displaymotorcurrent = String(motorcurrent, 0);
     displaytempVesc = String(tempVesc, 0);
     displaybatpercentage = String(batpercentage, 0);
+    displaycellvoltage = String(voltage / 13, 2);
 
     display.setTextColor(WHITE,BLACK);
 
@@ -157,26 +193,25 @@ tcaselect(DISPLAYADDR);
     display.setCursor(0,0);
 
     display.print(displayrpm);
-    display.print("");
+    display.print("RPM");
 
-    display.print(displayvelocity);
-    display.print("km/h ");
+ 
     display.print(displaypower);
-    display.print("W  ");
+    display.print("W");
 
-    display.print(displayvoltage);
-    display.print("V");
-    display.print(displaycurrent);
-    display.print("A");
-    display.print(displaymotorcurrent);
-    display.print("A");
+    //display.print(displayvoltage);
+    //display.print("V");
+    //display.print(displaycurrent);
+    //display.print("A");
+    //display.print(displaymotorcurrent);
+    //display.print("A");
     display.println();
 
-    display.print("   ");
+    display.print("");
     display.print(displaytempVesc);
-    display.print("°C ");
-    display.print(displaybatpercentage);
-    display.print("%       ");
+    display.print("C ");
+    display.print(displaycellvoltage);
+    display.print("V");
 
     display.display();
 

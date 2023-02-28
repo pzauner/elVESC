@@ -1,0 +1,54 @@
+Pins:
+
+Inputs
+------
+Rekuperation 14
+Bremse 27
+Licht 26
+Hupe 25
+Gas 33
+
+OK 19
+MENU 3
+SELECT 1
+KEY 23
+
+
+Outputs
+-------
+Licht 0
+Hupe 4
+Bremslicht 5
+Rücklicht 18
+
+Comms
+-----
+SCL 22
+SDA 21
+
+RX 16
+TX 17
+
+
+Connector von links nach rechts+
+----
+SELECT
+MENU
+OK
+KEY
+SCL
+SDA
+3.3V
+GND
+
+Connector Displayboard von links nach rechts
+----
+GND
+3.3V
+SDA
+SCL
+KEY
+OK
+MENU
+SELECT
+
